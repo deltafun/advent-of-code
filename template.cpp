@@ -1,9 +1,8 @@
-#include <fstream>
 #include <chrono>
+#include <fstream>
 #include <iostream>
 
 using Clock = std::chrono::high_resolution_clock;
-
 const std::string inputLoc = "../input/0X.debug.txt";
 
 int main() {
