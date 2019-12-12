@@ -3,7 +3,7 @@
 #include <iostream>
 
 using Clock = std::chrono::high_resolution_clock;
-const std::string inputLoc = "../input/0X.debug.txt";
+const std::string Input = "../input/XX.debug.txt";
 
 int main() {
   auto start = Clock::now();
