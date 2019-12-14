@@ -9,7 +9,7 @@
 using Clock = std::chrono::high_resolution_clock;
 const std::string Input  = "../input/03.txt";
 const std::string Input1 = "../input/03.debug1.txt";
-const std::string Input2 = "../input/03.debug1.txt";
+const std::string Input2 = "../input/03.debug2.txt";
 
 enum Direction { U, D, L, R };
 const std::map<char, Direction> StringToDirection{
@@ -45,29 +45,29 @@ int SolutionGenerator(const std::string& input)
       token[0] = '0';
       int travelDist = std::stoi(token);
 
-      switch (dir) {
-        case U:
-          pos.second += travelDist;
-          break;
-        case D:
-          pos.second -= travelDist;
-          break;
-        case R:
-          pos.first  += travelDist;
-          break;
-        case L:
-          pos.first  -= travelDist;
-          break;
-      }
+      for (int ii = 1; ii <= travelDist; ++ii) {
+        switch (dir) {
+          case U:
+            ++pos.second;
+            break;
+          case D:
+            --pos.second;
+            break;
+          case R:
+            ++pos.first;
+            break;
+          case L:
+            --pos.first;
+            break;
+        }
 
-      std::cout << pos.first << " " << pos.second << std::endl;
-
-      auto it = grid.find(pos);
-      if (it != grid.end() && it->second != wireNum)
-        res = std::min(res, ManhattanDistance(pos));
-      else
-        grid.emplace(pos, wireNum);
-    }
+        auto it = grid.find(pos);
+        if (it != grid.end() && it->second != wireNum)
+          res = std::min(res, ManhattanDistance(pos));
+        else
+          grid.emplace(pos, wireNum);
+      } // end for
+    } // end while
 
     ++wireNum;
   }
@@ -78,9 +78,7 @@ int SolutionGenerator(const std::string& input)
 int main() {
   auto start = Clock::now();
 
-  std::cout << SolutionGenerator(Input1) << "\n"
-            << SolutionGenerator(Input2) << "\n";
-  int solone = 0;
+  int solone = SolutionGenerator(Input);
 
   auto partOne = Clock::now();
 
