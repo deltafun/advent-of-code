@@ -1,0 +1,15 @@
+ BasedOnStyle : Google
+ IndentWidth : 2
+ ConstructorInitializerIndentWidth : 2
+ ContinuationIndentWidth : 2
+ AccessModifierOffset : -2
+ ObjCBlockIndentWidth : 2
+ AllowShortIfStatementsOnASingleLine : false
+ AllowShortLoopsOnASingleLine : false
+ BreakBeforeBraces : Allman
+ BinPackArguments : false
+ BinPackParameters : false
+ AllowShortFunctionsOnASingleLine : Empty
+ BreakStringLiterals : false
+ ColumnLimit: 80
+ Cpp11BracedListStyle: false
