@@ -14,6 +14,10 @@ enum class Opcode
   Mul = 2,
   In = 3,
   Out = 4,
+  JmpTrue = 5,
+  JmpFalse = 6,
+  LessThan = 7,
+  Equals = 8,
   End = 99
 };
 
@@ -22,6 +26,10 @@ const std::map<int, Opcode> IntToOpcode{
   {2, Opcode::Mul},
   {3, Opcode::In},
   {4, Opcode::Out},
+  {5, Opcode::JmpTrue},
+  {6, Opcode::JmpFalse},
+  {7, Opcode::LessThan},
+  {8, Opcode::Equals},
   {99, Opcode::End},
 };
 
@@ -30,6 +38,10 @@ const std::map<Opcode, int> OpcodeToParams{
   {Opcode::Mul, 3},
   {Opcode::In, 1},
   {Opcode::Out, 1},
+  {Opcode::JmpTrue, 2},
+  {Opcode::JmpFalse, 2},
+  {Opcode::LessThan, 3},
+  {Opcode::Equals, 3},
   {Opcode::End, 0},
 };
 
@@ -108,6 +120,7 @@ int FooHard(std::vector<int> opcodes, int input)
         inst.modes[jj] == Mode::Immediate ? ii + jj + 1 : opcodes[ii + jj + 1];
     }
 
+    int jmp = -1;
     switch (inst.op)
     {
       case Opcode::Add:
@@ -122,11 +135,29 @@ int FooHard(std::vector<int> opcodes, int input)
       case Opcode::Out:
         std::cout << opcodes[paramsIdx[0]] << "\n";
         break;
+      case Opcode::JmpTrue:
+        if (opcodes[paramsIdx[0]])
+          jmp = opcodes[paramsIdx[1]];
+        break;
+      case Opcode::JmpFalse:
+        if (!opcodes[paramsIdx[0]])
+          jmp = opcodes[paramsIdx[1]];
+        break;
+      case Opcode::LessThan:
+        opcodes[paramsIdx[2]] = opcodes[paramsIdx[0]] < opcodes[paramsIdx[1]];
+        break;
+      case Opcode::Equals:
+        opcodes[paramsIdx[2]] = opcodes[paramsIdx[0]] == opcodes[paramsIdx[1]];
+        break;
       default:
+        std::cerr << "what the cat\n";
         break;
     }
 
-    ii += OpcodeToParams.at(inst.op) + 1;
+    if (jmp >= 0)
+      ii = jmp;
+    else
+      ii += OpcodeToParams.at(inst.op) + 1;
   }
 
   return opcodes[0];
@@ -137,16 +168,14 @@ int main()
   auto start = Clock::now();
 
   auto opcodes = GetTESTProgram();
-  int partOneAns = FooHard(opcodes, 1);
+  // NOTE: I don't need the output of the function, but whatever.
+  FooHard(opcodes, 1);  // 7157989
 
   auto partOne = Clock::now();
 
-  // int partTwoAns = FooHarder(opcodes, 19690720);
+  FooHard(opcodes, 5);  // 7873292
 
   auto end = Clock::now();
-
-  std::cout << "Part One: " << partOneAns << std::endl;
-  // std::cout << "Part Two: " << partTwoAns << std::endl;
 
   // clang-format off
   std::cout << "Time: "
