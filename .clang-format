@@ -12,4 +12,4 @@
  AllowShortFunctionsOnASingleLine : Empty
  BreakStringLiterals : false
  ColumnLimit: 80
- Cpp11BracedListStyle: false
+ Cpp11BracedListStyle: true
