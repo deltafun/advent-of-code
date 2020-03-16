@@ -59,21 +59,12 @@ int CalculateOrbits(const ObjToOrbitMap& objToOrbits)
     auto obj = toVisit.top();
     toVisit.pop();
 
-    if (visited.contains(obj.first)) // keep backtracking
-    {
-      // TODO: Verify if we even need 'visited'.
-      std::cout << "Visited " << obj.first << std::endl;
-    }
-    else // consider its orbit and try to move forward
-    {
-      res += obj.second;
-      visited.emplace(obj.first);
-      int orbits = obj.second + 1;
+    res += obj.second;
+    int orbits = obj.second + 1;
 
-      auto objRange = objToOrbits.equal_range(obj.first);
-      for (auto it = objRange.first; it != objRange.second; ++it)
-        toVisit.emplace(it->second, orbits);
-    }
+    auto objRange = objToOrbits.equal_range(obj.first);
+    for (auto it = objRange.first; it != objRange.second; ++it)
+      toVisit.emplace(it->second, orbits);
   }
 
   return res;
@@ -84,7 +75,7 @@ int main()
   auto start = Clock::now();
 
   auto objsToOrbiter = GetOrbits(Input);
-  int solone = CalculateOrbits(objsToOrbiter);
+  int solone = CalculateOrbits(objsToOrbiter); // 194721
 
   auto partOne = Clock::now();
 
